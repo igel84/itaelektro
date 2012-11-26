@@ -1,0 +1,6 @@
+- content_for :head do
+  %title Все категории
+%h1 Все категории
+%ul
+  - @catalogue_sections.try(:each) do |section|
+    %li= link_to section.name, catalog_path(section)

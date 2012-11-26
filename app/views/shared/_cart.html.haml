@@ -1,0 +1,12 @@
+%span.CartItems
+  %span.qty
+  Товары в корзине:
+  = @cart.quantity.to_s
+  шт.
+%br/
+%br/
+%span.CartTotal
+  На сумму:
+  %span
+    = @cart.price.to_s
+    руб.

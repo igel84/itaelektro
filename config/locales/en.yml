@@ -1,0 +1,8 @@
+en:
+  catalog_title: "Catalog"
+  price_title: "Price"
+  root_title: 'First page'
+  add_to_cart: 'To cart'
+  cart_title: 'Cart'
+  items_in_cart: 'items in cart'
+  cart_total_price: 'sum'

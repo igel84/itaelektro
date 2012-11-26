@@ -1,0 +1,17 @@
+!!!
+%html
+  %head
+    %title Golf
+    = stylesheet_link_tag 'application'
+    = stylesheet_link_tag params[:controller]
+    = javascript_include_tag 'application'
+    = javascript_include_tag params[:controller]
+    = csrf_meta_tags
+  %body
+    = gflash
+    = gritter_flash_messages
+    = notice
+    = alert
+    = render 'shared/cart'
+    = menu
+    = yield

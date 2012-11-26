@@ -1,0 +1,113 @@
+/ filters form:begin
+.filters_form
+  .select
+    %p Značka:
+    %div BACHMAN
+    %span
+  .text
+    %p Název:
+    %div Zásuvka
+  .slider
+    %p Cena:
+    %span.from
+    %div
+    %span.before
+    #price
+      %i 0,-
+      %b 67 000,-
+  .select
+    %p Kategorie:
+    %div Zásuvkové kombinace
+    %span
+  .text
+    %p Kod:
+    %div Z59.310AA
+/ filters form:end
+/ description product:begin
+.descr_product
+  / title
+  %h1.title_gray_bg Typ: Z59.310AA
+  / slider:begin
+  .wrapper_slide
+    #slide.slideshow
+      .img_cont
+        %ul.main_images
+          - @product.product_images.each do |product_image|
+            %li
+              = link_to product_image.image.medium.url, class: 'cboxElement' do
+                %span
+                = image_tag product_image.image.small
+      .wrapper_ui
+        .prev_btn
+          %a.prev{:href => "#"}
+        .thumb_holder
+          %ul.thumbs
+            - @product.product_images.each do |product_image|
+              %li.section
+                %ul.sub_section
+                  %li
+                    %a{:href => "javascript:void(0);"}
+                      = image_tag product_image.image.thumb.url
+                  %li
+                    %a{:href => "javascript:void(0);"}
+                      = image_tag product_image.image.thumb.url
+                  %li
+                    %a{:href => "javascript:void(0);"}
+                      = image_tag product_image.image.thumb.url
+        .next_btn
+          %a.next{:href => "#"}
+  / slider:end
+  / text description:begin
+  .text_descr
+    %ul
+      %li 3x zásuvka 230V/16A
+      %li 1x zásuvka 400V/16A/5p.
+      %li svorkovnice PE + N
+      %li 2x vývodka ISO 25
+    %p
+      %b> Kód:
+      DP993b
+    %p
+      %b> Prod. číslo:
+      AGT3-25SAT3-60G
+    %p
+      %b Odkazy:
+      %a{:href => "#", :title => ""} Stránky výrobce
+    %div
+      %p
+        %i CCena bez DPH
+        %b 1 299,-
+      %p
+        %i Cena s DPH
+        %b 1 559,-
+      %a.red_big_button{:href => "#", :title => ""} Do košíku
+  / text description:begin
+/ description product:end
+%p
+  = link_to 'Каталог', catalogs_path
+  \/
+  = link_to @product.catalogue_section.name, catalog_path(@product.catalogue_section)
+  \/
+  = @product.name
+#tienda.products.view
+  #tienda_product
+    #tienda_product_header
+      %h1= @product.name
+    .product_image{style: 'float:left'}
+      = link_to @product.product_images.first.image.medium.url, class: 'modal', :rel => "{handler:'image'}" do
+        %span
+          = image_tag(@product.product_images.first.image.thumb, :align => "middle", :alt => "#{@product.name}", :border => "0", :title => "#{@product.name}")#, @product.product_images.first.image.medium.url)      
+    #product_description
+      #product_buy_4.product_buy
+        = form_for :cart_item, url: add_to_cart_path, method: :post do |f|
+          / base price
+          %span#product_price_4.product_price
+            %span Цена:
+            = @product.price
+            руб.
+            / For UE States, we should let the admin choose to show (+19% vat) and (link to the shipping rates)
+          / Add to cart button
+          #add_to_cart_4.add_to_cart
+            = f.hidden_field :product_id, value: @product.id
+            = f.hidden_field :quantity, value: 1
+            %img.addcart{:alt => "Add to Cart", :onclick => "submit();", :onmouseout => "src='/assets/addcart.png'", :onmouseover => "src='/assets/addcart_h.png'", :src => "/assets/addcart.png"}/

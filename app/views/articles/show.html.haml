@@ -1,0 +1,10 @@
+.left_col
+  %h1.title_gray_bg= @article.title
+  .wrapper_products_block
+    %br/
+    != @article.body
+.right_col
+  - @articles.each do |article|
+    %h3= article.title
+    = raw truncate(article.body, length: 750, ommission: '...')
+    = link_to "čist dál &rsaquo;&rsaquo;".html_safe, hiperlink_path(article.name), title: article.title

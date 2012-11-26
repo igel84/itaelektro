@@ -1,0 +1,48 @@
+<!-- banner -->
+    <%= image_tag @banner.image, alt: @banner.alt %>
+
+    <div class="clear"></div>
+
+    <!-- products blocks:begin -->
+    <div class="left_col">
+      <h1 class="title_gray_bg">NÁKUP TÝDNE</h1>
+      <div class="wrapper_products_block">
+        <%- 3.times do |index| %>
+          <%- product = Product.first %>
+          <div class="<%= 'first' if index == 0 %>">
+            <%= image_tag product.main_image.try(:small).try(:url) %>
+            <div>cena:<span><%= product.price.round %> Kč</span></div>
+            <%= form_for :cart_item, url: add_to_cart_path, method: :post do |f| %>
+            <%= f.hidden_field :product_id, value: product.id %>
+            <%= f.hidden_field :quantity, value: 1 %>
+            <a href="#" title="" class="red_button" onclick = "submit();">Do košíku</a>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="clear"></div>
+
+      <h2 class="title_red_bg">ZVÝHODNĚNÁ NABÍDKA</h2>
+      <div class="wrapper_products_block">
+        <%- 3.times do |index| %>
+          <%- product = Product.first %>
+          <div class="<%= 'first' if index == 0 %>">
+            <%= image_tag product.main_image.try(:small).try(:url) %>
+            <div>cena:<span><%= product.price.round %> Kč</span></div>
+            <a href="#" title="" class="red_button">Do košíku</a>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <!-- products blocks:end -->
+
+    <!-- information blocks:begin -->
+    <div class="right_col">
+      <%- @articles.each do |article| %>
+        <h3><%= article.title %></h3>
+        <%= raw truncate(article.body, length: 750, ommission: '...') %>
+        <%= link_to "čist dál &rsaquo;&rsaquo;".html_safe, hiperlink_path(article.name), title: article.title %>
+      <% end %>
+    </div>
+    <!-- information blocks:end -->

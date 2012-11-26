@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<head>
+
+  <!-- Basic Page Needs
+  ================================================== -->
+  <meta charset="utf-8">
+  <title>Main Page - ITAelektro</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile Specific Metas
+  ================================================== -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- CSS
+  ================================================== -->
+  <%= stylesheet_link_tag 'application' %>
+  <%= javascript_include_tag 'application' %>
+  <%= csrf_meta_tags %>
+  
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <!-- Favicons
+  ================================================== -->
+  <!-- link rel="shortcut icon" href="images/favicon.ico"> -->
+
+</head>
+<body>
+<!-- pop-up registration:begin -->
+<div class="pop-up_wrapper">
+  <div class="pop-up_registration">
+    <div class="title_pop-up">
+      <span>Registrace</span>
+      <div class="close_pop-up_button"></div>
+    </div>
+    <div class="switcher">
+      <ul>
+        <li class="active"><a href="#" title="">Nový zákazník</a></li>
+        <li><a href="#" title="">Firemní údaje</a></li>
+      </ul>
+    </div>
+    <div class="form">
+      <div>
+        <div class="label">Email (login): <span>*</span></div>
+        <div class="input_text"></div>
+      </div>
+      <div>
+        <div class="label">Heslo: <span>*</span></div>
+        <div class="input_text"></div>
+      </div>
+      <div>
+        <div class="label">Potvrzení hesla: <span>*</span></div>
+        <div class="input_text"></div>
+      </div>
+      <div>
+        <div class="label">Telefon:</div>
+        <div class="input_text"></div>
+      </div>
+      <div>
+        <a href="#" title="" class="red_big_button">Zaregistrovat</a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- pop-up registration:end -->
+
+<!-- WRAPPER PAGE:begin -->
+<div id="wrapper">
+  
+  <!-- HEADER:begin -->
+  <header class="header_page">
+
+    <!-- logotype -->
+    <a href="/" class="logotype" title=""></a>
+
+    <!-- search -->
+    <div class="wrapper_search">
+      <div>Sem napište hledané slovo</div>
+      <a href=""></a>
+    </div>
+
+    <!-- enter the site:begin-->
+    <div class="wrapper_enter_site">
+      <a href="#" title="Nová registrace">Nová registrace</a>
+      <div class="wrapper_forms">
+        <div>
+          <div class="label">Login:</div>
+          <div class="input"></div>
+        </div>
+        <div>
+          <div class="label">Heslo:</div>
+          <div class="input"></div>
+        </div>
+        <a href="" class="gray_button">Přihlásit</a>
+      </div>
+    </div>
+    <!-- enter the site:end-->
+
+    <!-- basket -->
+    <div class="wrapper_basket">
+      <div><span><%= @cart.quantity %></span> ks zboží: <span><%= @cart.price.round %></span> Kč</div>
+      <%- unless @cart.items == [] %>
+        <a href="/cart" class="gray_button">Pokračujte</a>
+      <% end %>
+    </div>
+
+    <div class="clear"></div>
+
+    <!-- navigation:begin -->
+    <nav>
+      <ul>
+        <%- MenuItem.all.each do |menu| %>
+        <li class="<%= menu.url == request.fullpath ? 'active' : '' %> <%= menu == MenuItem.first ? 'first' : menu == MenuItem.last ? 'last' : '';%>"><%= link_to menu.name, menu.url, title:menu.name, class:"width_189px" %></li>
+        <% end %>
+      </ul>
+    </nav>
+    <!-- navigation:end -->
+
+  </header>
+  <!-- HEADER:end -->
+
+  <!-- CONTENT:begin -->
+  <div class="content_page">
+
+    <%= yield %>    
+
+  </div>
+  <!-- CONTENT:end -->
+
+  <!-- FOOTER:begin -->
+  <footer class="footer_page">&copy; 2012 ITAelectro</footer>
+  <!-- FOOTER:end -->
+
+</div>
+<!-- WRAPPER PAGE:end -->
+
+</body>
+
+<!-- Pop-up registration window
+  ================================================== -->
+<script type="text/javascript">
+$(function(){
+  $('.wrapper_enter_site > a:first').click(function(){
+    var widthWindow = $(document).height();
+    $('.pop-up_wrapper').height(widthWindow).show();
+
+    var x = document.documentElement.clientHeight;
+    var y = $('.pop-up_registration').height();
+    var inTwoX = x/2;
+    var inToY = y/2;
+    var z = (inTwoX-inToY);
+    $('.pop-up_registration').css({'top' : z});
+  });
+  $('.title_pop-up .close_pop-up_button').click(function(){
+    $('.pop-up_wrapper').hide();
+  });
+});
+</script>
+
+</html>

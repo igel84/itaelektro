@@ -1,0 +1,56 @@
+/ additional navigation:begin
+%ul.additional_navigation
+  %li.active
+    %span> 1
+    Košík
+  %li
+    %span> 2
+    Doprava a platba
+  %li
+    %span> 3
+    Dodací údaje
+  %li
+    %span> 4
+    Souhrn
+/ additional navigation:end
+/ table products:begin
+.table_products
+  .tr
+    .th.big_cell Zboží
+    .th Ks
+    .th Cena/ks
+    .th Celkem
+    .th &nbsp;
+  - @cart.items.each do |item|
+    .tr
+      .td
+        = image_tag Product.find(item.product.id).main_image.try(:thumb).try(:url)
+        %h1
+          = item.product.name
+          = item.product.title
+      .td
+        = link_to cart_conversion_path(product: item.product, quantity: item.quantity + 1) do
+          .plus_button
+        .quantity_of_goods= item.quantity
+        = link_to cart_conversion_path(product: item.product, quantity: item.quantity - 1) do
+          .minus_button
+      .td= number_to_currency(item.product.price.round, unit: 'Kč', separator: ',', delimiter: ' ', format: "%n %u", precision: 0)      
+      .td= number_to_currency(item.price.round, unit: 'Kč', separator: ',', delimiter: ' ', format: "%n %u", precision: 0)      
+      .td
+        = link_to destroy_cart_item_path(item.product.id), :confirm => 'are you sure?', :method => :delete do
+          .delete_product
+/ table products:end
+/ results:begin
+.results
+  .results_info
+    %p Celkem bez DPH
+    %p DPH (0 %)
+    %span K úhradě
+  .results_info
+    %p= number_to_currency(@cart.price, unit: 'Kč', separator: ',', delimiter: ' ', format: "%n %u")      
+    %p= number_to_percentage(Product.tax * 100, precision: 0)      
+    %span= number_to_currency(@cart.full_price, unit: 'Kč', separator: ',', delimiter: ' ', format: "%n %u")
+  .clear
+  .red_big_button
+    %a{:href => "#", :title => ""} Pokračovat
+    %span

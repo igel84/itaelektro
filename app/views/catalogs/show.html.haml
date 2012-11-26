@@ -1,0 +1,33 @@
+- content_for :head do
+  %title= @catalogue_section.name
+#tienda_category_header
+  %h1= @catalogue_section.name
+#tienda_products
+  - @catalogue_section.products.try(:each) do |product|
+    .product_item
+      .product_name
+        %h2
+          = link_to product.name, catalog_product_path(@catalogue_section, product)
+      .product_thumb
+        .product_listimage
+          %a{:href => "/filter-nasadki/products/view/2/4"}
+            = image_tag(product.product_images.first.image.thumb, align: "middle", alt: "#{product.name}", border: "0", title: "#{product.name}") unless product.product_images.empty?            
+        .reset
+      .wrap_product_info
+        .product_info
+          .product_minidesc= product.preview
+          .reset
+        #product_buy_4.product_buy
+          = form_for :cart_item, url: add_to_cart_path, method: :post do |f|
+            / base price
+            %span#product_price_4.product_price
+              %span Цена:
+              = product.price
+              руб.
+              / For UE States, we should let the admin choose to show (+19% vat) and (link to the shipping rates)
+            / Add to cart button
+            #add_to_cart_4.add_to_cart
+              = f.hidden_field :product_id, value: product.id
+              = f.hidden_field :quantity, value: 1
+              %img.addcart{:alt => "Add to Cart", :onclick => "submit();", :onmouseout => "src='/assets/addcart.png'", :onmouseover => "src='/assets/addcart_h.png'", :src => "/assets/addcart.png"}/
+    .reset
