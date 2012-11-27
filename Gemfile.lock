@@ -225,6 +225,7 @@ DEPENDENCIES
   gritter_notices
   haml-rails
   jquery-rails
+  kaminari
   letter_opener
   mini_magick
   mysql2

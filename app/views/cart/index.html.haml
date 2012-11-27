@@ -24,7 +24,7 @@
   - @cart.items.each do |item|
     .tr
       .td
-        = image_tag Product.find(item.product.id).main_image.try(:thumb).try(:url)
+        = image_tag(Product.find(item.product.id).main_image.try(:thumb).try(:url) || '/assets/no_image.jpg', size: '89x89')
         %h1
           = item.product.name
           = item.product.title

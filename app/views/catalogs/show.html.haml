@@ -1,33 +1,42 @@
-- content_for :head do
-  %title= @catalogue_section.name
-#tienda_category_header
-  %h1= @catalogue_section.name
-#tienda_products
-  - @catalogue_section.products.try(:each) do |product|
-    .product_item
-      .product_name
-        %h2
-          = link_to product.name, catalog_product_path(@catalogue_section, product)
-      .product_thumb
-        .product_listimage
-          %a{:href => "/filter-nasadki/products/view/2/4"}
-            = image_tag(product.product_images.first.image.thumb, align: "middle", alt: "#{product.name}", border: "0", title: "#{product.name}") unless product.product_images.empty?            
-        .reset
-      .wrap_product_info
-        .product_info
-          .product_minidesc= product.preview
-          .reset
-        #product_buy_4.product_buy
-          = form_for :cart_item, url: add_to_cart_path, method: :post do |f|
-            / base price
-            %span#product_price_4.product_price
-              %span Цена:
-              = product.price
-              руб.
-              / For UE States, we should let the admin choose to show (+19% vat) and (link to the shipping rates)
-            / Add to cart button
-            #add_to_cart_4.add_to_cart
+= render 'shared/filter'
+/ catalog:begin
+.catalog
+  / title
+  .title_gray_bg
+    %b= @catalogue_section.name
+    = paginate @products, outer_window: 3 if @products != []
+  / products:begin
+  .products_wrapper
+    - @products.each do |product|
+      / one product:begin
+      .one_product_info
+        / left column
+        .lcol
+          = image_tag product.main_image.try(:small).try(:url) || '/assets/no_image.jpg'
+        / right colimn
+        .rcol
+          .text_info
+            %h2= product.title
+            - product.additional_top_attributes.each do |attribute|
+              - if attribute != ''
+                %p
+                  %span= attribute.try(:name)
+                  = attribute.try(:value)
+            = link_to 'více informací &rsaquo;&rsaquo;'.html_safe, catalog_product_path(@catalogue_section, product)
+          .price
+            %p
+              Cena bez DPH:
+              %b= number_to_currency(product.price.round, unit: ',- Kč', separator: ',', delimiter: '', format: "%n%u", precision: 0)
+            %span
+              s DPH: 
+              = number_to_currency(product.full_price.round, unit: ',- Kč', separator: ',', delimiter: '', format: "%n%u", precision: 0)
+            = form_for :cart_item, url: add_to_cart_path, method: :post do |f|
               = f.hidden_field :product_id, value: product.id
               = f.hidden_field :quantity, value: 1
-              %img.addcart{:alt => "Add to Cart", :onclick => "submit();", :onmouseout => "src='/assets/addcart.png'", :onmouseover => "src='/assets/addcart_h.png'", :src => "/assets/addcart.png"}/
-    .reset
+              %a.red_button{:href => "#", :title => "", :onclick => "submit();",} Do košíku
+      / one product:end
+  / products:end
+  / additional pagination
+  .pagination
+    = paginate @products, outer_window: 3 if @products != []
+/ catalog:end

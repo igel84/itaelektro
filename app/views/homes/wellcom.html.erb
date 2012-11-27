@@ -30,7 +30,11 @@
           <div class="<%= 'first' if index == 0 %>">
             <%= image_tag product.main_image.try(:small).try(:url) %>
             <div>cena:<span><%= product.price.round %> Kč</span></div>
-            <a href="#" title="" class="red_button">Do košíku</a>
+            <%= form_for :cart_item, url: add_to_cart_path, method: :post do |f| %>
+            <%= f.hidden_field :product_id, value: product.id %>
+            <%= f.hidden_field :quantity, value: 1 %>
+            <a href="#" title="" class="red_button" onclick = "submit();">Do košíku</a>
+            <% end %>
           </div>
         <% end %>
       </div>

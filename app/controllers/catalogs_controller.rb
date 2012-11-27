@@ -6,5 +6,6 @@ class CatalogsController < ApplicationController
 
   def show
     @catalogue_section = CatalogueSection.includes(:products).find(params[:id])
+    @products = @catalogue_section.products.page params[:page]
   end
 end

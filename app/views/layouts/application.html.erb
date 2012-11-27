@@ -41,27 +41,31 @@
         <li><a href="#" title="">Firemní údaje</a></li>
       </ul>
     </div>
-    <div class="form">
-      <div>
-        <div class="label">Email (login): <span>*</span></div>
-        <div class="input_text"></div>
+    <form accept-charset="UTF-8" action="/users" class="new_user" id="new_user" method="post">
+      <div class="form">
+        <div>
+          <div class="label">Email (login): <span>*</span></div>
+          <div class="input_text">
+            <input id="user_email" name="user[email]" size="30" type="email" value="" style="border:none;background-color:white !important;padding-top:0" />
+          </div>
+        </div>
+        <div>
+          <div class="label">Heslo: <span>*</span></div>
+          <div class="input_text">
+            <input id="user_password" name="user[password]" size="30" type="password" style="border:none;background-color:white !important;padding-top:0" />
+          </div>
+        </div>
+        <div>
+          <div class="label">Heslo again: <span>*</span></div>
+          <div class="input_text">
+            <input id="user_password_confirmation" name="user[password_confirmation]" size="30" type="password" style="border:none;background-color:white !important;padding-top:0" />
+          </div>
+        </div>
+        <div>
+          <a href="#" title="" class="red_big_button" onclick = "submit();">Zaregistrovat</a>
+        </div>
       </div>
-      <div>
-        <div class="label">Heslo: <span>*</span></div>
-        <div class="input_text"></div>
-      </div>
-      <div>
-        <div class="label">Potvrzení hesla: <span>*</span></div>
-        <div class="input_text"></div>
-      </div>
-      <div>
-        <div class="label">Telefon:</div>
-        <div class="input_text"></div>
-      </div>
-      <div>
-        <a href="#" title="" class="red_big_button">Zaregistrovat</a>
-      </div>
-    </div>
+    </form>
   </div>
 </div>
 <!-- pop-up registration:end -->
@@ -76,25 +80,33 @@
     <a href="/" class="logotype" title=""></a>
 
     <!-- search -->
-    <div class="wrapper_search">
-      <div>Sem napište hledané slovo</div>
-      <a href=""></a>
-    </div>
-
+    <%= form_tag '/find_product' do %>
+      <div class="wrapper_search">
+        <div>
+        <%= text_field_tag 'query', params[:query], placeholder: 'Sem napište hledané slovo', style: 'border:none;width:200px' %>
+        </div>
+        <a href="#" onclick = "submit();false;"></a>
+      </div>
+    <% end %>                
+    
     <!-- enter the site:begin-->
     <div class="wrapper_enter_site">
-      <a href="#" title="Nová registrace">Nová registrace</a>
-      <div class="wrapper_forms">
-        <div>
-          <div class="label">Login:</div>
-          <div class="input"></div>
+      <%- unless current_user %>
+        <a href="#" title="Nová registrace">Nová registrace</a>
+        <div class="wrapper_forms">
+          <div>
+            <div class="label">Login:</div>
+            <div class="input"></div>
+          </div>
+          <div>
+            <div class="label">Heslo:</div>
+            <div class="input"></div>
+          </div>
+          <a href="" class="gray_button">Přihlásit</a>
         </div>
-        <div>
-          <div class="label">Heslo:</div>
-          <div class="input"></div>
-        </div>
-        <a href="" class="gray_button">Přihlásit</a>
-      </div>
+      <%- else %>
+        <%= link_to "Sign out", destroy_user_session_path, :method => :delete %>
+      <% end %>
     </div>
     <!-- enter the site:end-->
 

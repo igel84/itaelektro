@@ -11,6 +11,7 @@ gem 'cancan'
 gem 'gritter_notices'
 gem 'awesome_nested_set'
 gem 'haml-rails'
+gem 'kaminari'
 #gem 'yaml_db', git:'git://github.com/lostapathy/yaml_db.git'
 
 group :development do
