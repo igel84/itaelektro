@@ -1,0 +1,42 @@
+= render 'shared/filter'
+/ catalog:begin
+.catalog
+  / title
+  .title_gray_bg
+    %b Find result
+    = paginate @products, outer_window: 3 if @products != []
+  / products:begin
+  .products_wrapper
+    - @products.each do |product|
+      / one product:begin
+      .one_product_info
+        / left column
+        .lcol
+          = image_tag product.main_image.try(:small).try(:url) || '/assets/no_image.jpg'
+        / right colimn
+        .rcol
+          .text_info
+            %h2= product.title
+            - product.additional_top_attributes.each do |attribute|
+              - if attribute != ''
+                %p
+                  %span= attribute.try(:name)
+                  = attribute.try(:value)
+            = link_to 'více informací &rsaquo;&rsaquo;'.html_safe, catalog_product_path(product.catalogue_section, product)
+          .price
+            %p
+              Cena bez DPH:
+              %b= number_to_currency(product.price.round, unit: ',- Kč', separator: ',', delimiter: '', format: "%n%u", precision: 0)
+            %span
+              s DPH: 
+              = number_to_currency(product.full_price.round, unit: ',- Kč', separator: ',', delimiter: '', format: "%n%u", precision: 0)
+            = form_for :cart_item, url: add_to_cart_path, method: :post do |f|
+              = f.hidden_field :product_id, value: product.id
+              = f.hidden_field :quantity, value: 1
+              %a.red_button{:href => "#", :title => "", :onclick => "submit();",} Do košíku
+      / one product:end
+  / products:end
+  / additional pagination
+  .pagination
+    = paginate @products, outer_window: 3 if @products != []
+/ catalog:end

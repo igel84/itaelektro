@@ -80,7 +80,7 @@
     <a href="/" class="logotype" title=""></a>
 
     <!-- search -->
-    <%= form_tag '/find_product' do %>
+    <%= form_tag '/find_products', method: 'get' do %>
       <div class="wrapper_search">
         <div>
         <%= text_field_tag 'query', params[:query], placeholder: 'Sem napište hledané slovo', style: 'border:none;width:200px' %>
@@ -93,18 +93,25 @@
     <div class="wrapper_enter_site">
       <%- unless current_user %>
         <a href="#" title="Nová registrace">Nová registrace</a>
-        <div class="wrapper_forms">
-          <div>
-            <div class="label">Login:</div>
-            <div class="input"></div>
-          </div>
-          <div>
-            <div class="label">Heslo:</div>
-            <div class="input"></div>
-          </div>
-          <a href="" class="gray_button">Přihlásit</a>
-        </div>
+          <%= form_tag "/users/sign_in" do %>
+          <div class="wrapper_forms">
+            <div>
+              <div class="label">Login:</div>
+              <div class="input" style="padding:0;width:120px">
+                <input id="user_email" name="user[email]" size="30" type="email" value="" style="border:none;background-color:white !important;padding-top:3px;height:10px;margin:0;width:112px" />
+              </div>
+            </div>
+            <div>
+              <div class="label">Heslo:</div>
+              <div class="input" style="padding:0;width:120px">
+                <input id="user_password" name="user[password]" size="30" type="password" style="border:none;background-color:white !important;padding-top:3px;height:10px;margin:0;width:112px" />
+              </div>
+            </div>
+            <a href="#" class="gray_button" onclick = "submit()">Přihlásit</a>
+          </div>        
+        <% end %>
       <%- else %>
+        <span style="font-weight:bold;margin-top:20px;display:block"><%= current_user.email %></span>
         <%= link_to "Sign out", destroy_user_session_path, :method => :delete %>
       <% end %>
     </div>
