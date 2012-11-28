@@ -1,25 +1,52 @@
+:javascript
+  $(function() {
+      $( "#slider" ).slider({
+          range: true,
+          min: 0,
+          max: #{Product.maximum(:price).round},
+          values: [ #{params[:price_min].to_i || 0}, #{params[:price_max].to_i || Product.maximum(:price).round} ],
+          slide: function( event, ui ) {
+              $("#price_min").val(ui.values[0]);
+              $("#price_max").val(ui.values[1]);
+
+              $('#price i').text(ui.values[0]+',-');
+              $('#price b').text(ui.values[1]+',-');
+          }
+      });
+      $('#price_min').val($("#slider-range").slider("values",0) + '');
+      $('#price_max').val($( "#slider-range" ).slider( "values", 1 ));
+
+      $('#slider').css('height', '0');
+      $('.ui-slider-range.ui-widget-header').css('height', '0').css('border', 'none');
+      $('a.ui-slider-handle.ui-state-default.ui-corner-all').css('height', '50px');
+  });  
 / filters form:begin
-.filters_form
-  .select
-    %p Značka:
-    %div BACHMAN
-    %span
-  .text
-    %p Název:
-    %div Zásuvka
-  .slider
-    %p Cena:
-    %span.from
-    %div
-    %span.before
-    #price
-      %i 0,-
-      %b 67 000,-
-  .select
-    %p Kategorie:
-    %div Zásuvkové kombinace
-    %span
-  .text
-    %p Kod:
-    %div Z59.310AA
-/ filters form:end
+= form_tag '/find_products', method: 'get' do
+  .filters_form
+    .select
+      %p Značka:
+      %div= text_field_tag 'brand', params[:brand], placeholder: 'Značka', style: 'border:none;width:200px'
+      %span
+    .text
+      %p Název:
+      %div= text_field_tag 'name', params[:name], placeholder: 'Název', style: 'border:none;width:200px'
+    .slider
+      %p Cena:
+      %span.from
+      %div
+        #slider{style:'margin-top:-5px;width:150px;border:none;'}
+        = hidden_field_tag 'price_min', params[:price_min], style: 'border:none;width:200px', id: 'price_min'
+        = hidden_field_tag 'price_max', params[:price_max], style: 'border:none;width:200px', id: 'price_max'
+      %span.before
+      #price
+        %i= (params[:price_min].to_i.to_s || 0) + ',-'
+        %b= (params[:price_max].to_i.to_s + ',-' || number_to_currency(Product.maximum(:price).round, unit: ',-', separator: ',', delimiter: ' ', format: "%n%u", precision: 0))
+    .select
+      %p Kategorie:
+      %div= text_field_tag 'catalogue_section', params[:catalogue_section], placeholder: 'Kategorie', style: 'border:none;width:200px'
+      %span
+    .text
+      %p Kod:
+      %div= text_field_tag 'kod', params[:kod], placeholder: 'Kod', style: 'border:none;width:200px'
+    %a.red_button{:href => "#", :onclick => "submit();false;", :style => 'margin-top:23px;margin-left:130px;padding:4px;width:120px'} Find
+  / filters form:end
