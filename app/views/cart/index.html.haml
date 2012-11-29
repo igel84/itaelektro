@@ -52,5 +52,5 @@
     %span= number_to_currency(@cart.full_price, unit: 'Kč', separator: ',', delimiter: ' ', format: "%n %u")
   .clear
   .red_big_button
-    %a{:href => "#", :title => ""} Pokračovat
-    %span
+    = link_to "Pokračovat", new_order_path
+    %span    

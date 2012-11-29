@@ -17,6 +17,10 @@ InitialRelease::Application.routes.draw do
     resources :products
   end
 
+  resources :orders
+  #resources :subscriptions
+  #get "payment", to: "payment#checkout"
+
   match ':hiperlink' => "articles#show", :as => 'hiperlink'
 
 end

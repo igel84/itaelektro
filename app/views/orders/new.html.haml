@@ -1,0 +1,42 @@
+.left_col{style:'width:450px'}
+  %h1.title_gray_bg Pay products
+  = form_for @order do |f|
+    - @order.errors.full_messages.each do |msg|
+      %p= msg
+    %p
+      = f.label :email
+      %br/
+      = f.text_field :email
+    %p
+      = f.label :first_name
+      %br/
+      = f.text_field :first_name
+    %p
+      = f.label :last_name
+      %br/
+      = f.text_field :last_name
+    %p
+      = f.label :card_type
+      %br/
+      = f.select :card_type, [["Visa", "visa"], ["MasterCard", "master"], ["Discover", "discover"], ["American Express", "american_express"]]
+    %p
+      = f.label :card_number
+      %br/
+      = f.text_field :card_number
+    %p
+      = f.label :card_verification, "Card Verification Value (CVV)"
+      %br/
+      = f.text_field :card_verification
+    %p
+      = f.label :card_expires_on
+      %br/
+      = f.date_select :card_expires_on, :discard_day => true, :start_year => Date.today.year, :end_year => (Date.today.year+10), :add_month_numbers => true
+    %p= f.submit "Submit"
+.right_col{style:'width:450px'}
+  %h1.title_gray_bg Or send letter to email
+  = form_for @order do |f|
+    %p
+      = label_tag 'email'
+      %br/
+      = text_field_tag 'email', "#{current_user == nil ? '' : current_user.email}"
+    %p= f.submit "Submit"

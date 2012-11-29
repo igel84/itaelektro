@@ -12,6 +12,7 @@ gem 'gritter_notices'
 gem 'awesome_nested_set'
 gem 'haml-rails'
 gem 'kaminari'
+gem "activemerchant"#, :require => 'active_merchant'
 #gem 'yaml_db', git:'git://github.com/lostapathy/yaml_db.git'
 
 group :development do
