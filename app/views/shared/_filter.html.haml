@@ -19,14 +19,33 @@
       $('#slider').css('height', '0');
       $('.ui-slider-range.ui-widget-header').css('height', '0').css('border', 'none');
       $('a.ui-slider-handle.ui-state-default.ui-corner-all').css('height', '50px');
+      $('#brand_button').click(function(){
+        //$('#brand').toggle();
+        //alert('sdf');        
+        $('#brand').focus();
+      });      
   });  
+:css
+  #brand, #catalogue_section
+    {
+      width:263px;
+      -webkit-appearance: none;
+      padding:3px 0;
+      border:none;
+      background: url(/assets/sprites/vnitrni_sprite.png) 220px -10px no-repeat;
+      height:34px;
+      margin: 0;
+    }
+  #brand option {width:263px}
 / filters form:begin
 = form_tag '/find_products', method: 'get' do
   .filters_form
     .select
       %p Značka:
-      %div= text_field_tag 'brand', params[:brand], placeholder: 'Značka', style: 'border:none;width:200px'
-      %span
+      %div{style:'width:263px;padding:0 0 0 20px'}
+        = select_tag "brand", options_from_collection_for_select(Product.group('brand'), "brand", "brand"), id:'brand'
+        =# text_field_tag 'brand', params[:brand], placeholder: 'Značka', style: 'border:none;width:200px'
+        =# %span#brand_button
     .text
       %p Název:
       %div= text_field_tag 'name', params[:name], placeholder: 'Název', style: 'border:none;width:200px'
@@ -43,8 +62,9 @@
         %b= (params[:price_max].to_i.to_s + ',-' || number_to_currency(Product.maximum(:price).round, unit: ',-', separator: ',', delimiter: ' ', format: "%n%u", precision: 0))
     .select
       %p Kategorie:
-      %div= text_field_tag 'catalogue_section', params[:catalogue_section], placeholder: 'Kategorie', style: 'border:none;width:200px'
-      %span
+      %div{style:'width:263px;padding:0 0 0 20px'}
+        = select_tag "catalogue_section", options_from_collection_for_select(CatalogueSection.all, "name", "name"), id:'catalogue_section'
+        =# %span
     .text
       %p Kod:
       %div= text_field_tag 'kod', params[:kod], placeholder: 'Kod', style: 'border:none;width:200px'
