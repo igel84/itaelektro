@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121126182663) do
+ActiveRecord::Schema.define(:version => 20121130115343) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -51,6 +51,12 @@ ActiveRecord::Schema.define(:version => 20121126182663) do
 
   add_index "ckeditor_assets", ["assetable_type", "assetable_id"], :name => "idx_ckeditor_assetable"
   add_index "ckeditor_assets", ["assetable_type", "type", "assetable_id"], :name => "idx_ckeditor_assetable_type"
+
+  create_table "deliveries", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "gritter_notices", :force => true do |t|
     t.integer  "owner_id",     :null => false
@@ -98,6 +104,12 @@ ActiveRecord::Schema.define(:version => 20121126182663) do
     t.string   "email"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
+    t.integer  "delivery_id"
+    t.string   "city"
+    t.string   "state"
+    t.string   "country"
+    t.string   "address1"
+    t.string   "zip"
   end
 
   create_table "product_attributes", :force => true do |t|
@@ -166,6 +178,8 @@ ActiveRecord::Schema.define(:version => 20121126182663) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                             :null => false
     t.datetime "updated_at",                             :null => false
+    t.string   "firm"
+    t.string   "ogrn"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

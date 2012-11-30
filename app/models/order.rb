@@ -1,9 +1,10 @@
 class Order < ActiveRecord::Base
   belongs_to :user
+  belongs_to :delivery
   has_many :transactions, :class_name => "OrderTransaction"
   
   attr_accessor :card_number, :card_verification
-  attr_accessible :email, :card_number, :card_verification, :user_id, :ip_address, :first_name, :last_name, :card_type, :card_expires_on, :body
+  attr_accessible :delivery_id, :email, :card_number, :card_verification, :user_id, :ip_address, :first_name, :last_name, :card_type, :card_expires_on, :body, :city, :state, :country, :address1, :zip
   
   validate :validate_card, on: :create
   
@@ -30,9 +31,11 @@ class Order < ActiveRecord::Base
   end
   
   def validate_card
-    unless credit_card.valid?
-      credit_card.errors.full_messages.each do |message|
-        errors[:base] << message
+    if !card_number.blank?
+      unless credit_card.valid?
+        credit_card.errors.full_messages.each do |message|
+          errors[:base] << message
+        end
       end
     end
   end

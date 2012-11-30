@@ -1,6 +1,36 @@
-.left_col{style:'width:450px'}
-  %h1.title_gray_bg Pay products
-  = form_for @order do |f|
+= form_for @order do |f|
+  %h1.title_gray_bg Select delivery type
+  %br/
+  %p
+    - Delivery.all.each_with_index do |delivery, index|
+      = radio_button_tag("order[delivery_id]", delivery.id, (index == 0))
+      = delivery.name
+      %br/
+  %br/
+  %h1.title_gray_bg Address info
+  %p
+    = f.label :city
+    %br/
+    = f.text_field :city
+  %p
+    = f.label :state
+    %br/
+    = f.text_field :state
+  %p
+    = f.label :country
+    %br/
+    = f.text_field :country
+  %p
+    = f.label :address1
+    %br/
+    = f.text_field :address1
+  %p
+    = f.label :zip
+    %br/
+    = f.text_field :zip
+  %br/
+  .left_col{style:'width:450px'}
+    %h1.title_gray_bg Pay products
     - @order.errors.full_messages.each do |msg|
       %p= msg
     %p
@@ -32,9 +62,8 @@
       %br/
       = f.date_select :card_expires_on, :discard_day => true, :start_year => Date.today.year, :end_year => (Date.today.year+10), :add_month_numbers => true
     %p= f.submit "Submit"
-.right_col{style:'width:450px'}
-  %h1.title_gray_bg Or send letter to email
-  = form_for @order do |f|
+  .right_col{style:'width:457px'}
+    %h1.title_gray_bg Or send letter to email
     %p
       = label_tag 'email'
       %br/

@@ -8,6 +8,8 @@ class OrdersController < ApplicationController
       @order = Order.new
       @order.body = @cart.to_s
       @order.email = params[:email]
+      @order.delivery_id =  params[:order][:delivery_id]
+      @order.save!
       OrderMailer.order_email(@order).deliver
       @cart.empty!
       render :action => "success"

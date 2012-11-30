@@ -1,0 +1,26 @@
+%h1.title_gray_bg Order success
+%br/
+%p
+  email:
+  = @order.email
+%p
+  delivery type:
+  = @order.try(:delivery).try(:name)
+%p
+  zip kod:
+  = @order.zip
+%p
+  address1:
+  = @order.address1
+%p
+  country:
+  = @order.country
+%p
+  state:
+  = @order.state
+%p
+  city:
+  = @order.city
+%p= @order.body
+%br/
+= link_to 'Home', :root
